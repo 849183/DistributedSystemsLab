@@ -1,0 +1,2 @@
+activate the venv --> source venv/bin/activate
+Execute the server --> uvicorn main:app --reload
