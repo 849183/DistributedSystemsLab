@@ -1,2 +1,3 @@
 activate the venv --> source venv/bin/activate
-Execute the server --> uvicorn main:app --reload
+Execute the server from the backend folder--> uvicorn src.main:app --reload 
+Execute test from the backend folder --> pytest src/tests
