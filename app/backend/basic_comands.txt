@@ -1,3 +1,6 @@
 activate the venv --> source venv/bin/activate
 Execute the server from the backend folder--> uvicorn src.main:app --reload 
 Execute test from the backend folder --> pytest src/tests
+Create the docker image --> docker build -t backend .
+Run the docker container --> docker run -d -p 8000:8000 backend
+

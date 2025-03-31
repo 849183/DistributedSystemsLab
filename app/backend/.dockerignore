@@ -1,0 +1,11 @@
+venv/
+src/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.git/
+.gitignore
+Dockerfile
+docker-compose.yml
+src/tests/
