@@ -4,3 +4,11 @@ Execute test from the backend folder --> pytest src/tests
 Create the docker image --> docker build -t backend .
 Run the docker container --> docker run -d -p 8000:8000 backend
 
+
+Starting all the services forcing the img creation --> docker compose up -d --build
+Starting all the services WITHOUT forcing the img creation --> docker compose up -d
+Stop all the services --> docker compose down
+Restart the services --> docker compose restart
+delete all the containers, images, and all elements --> docker compose down -v --rmi all --remove-orphans
+State the status of the compose --> docker compose ps
+Save all the data from the db --> docker compose exec db pg_dump -U user shopApp > ./app/DB/db_init.sql
