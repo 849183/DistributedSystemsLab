@@ -9,18 +9,32 @@ router = APIRouter()
 class ItemUpdate(BaseModel):
     name: str
     quantity: int
-
-
-
+# ---------- SCHEMA tests maria ----------
+class ItemCreate(BaseModel):
+    name: str
+    quantity: int
 
 # ---------- Endpoints ----------
 
 # /items (Maria)
 #     get
 #     post
+
 @router.get("/")
-async def get_items():
+async def get_all_items():
     return mock_items
+
+@router.post("/", status_code=status.HTTP_201_CREATED)
+async def create_item(item: ItemCreate):
+    if mock_items:
+        new_id = max(mock_items.keys()) + 1
+    else:
+        new_id = 1
+
+    item_dict = item.model_dump()
+    
+    mock_items[new_id] = item_dict
+    return {"id": new_id, **item_dict}
 
 # @router.post("/")
 # async def create_item(item: Item):

@@ -41,19 +41,39 @@ def test_delete_nonexistent_item():
 
 # test maria
 
-def test_get_items_empty():
-    response = client.get("/")
+def test_dict_items():
+    response = client.get("/items/")
     assert response.status_code == 200
-    assert response.json() == []
 
-def test_create_item_success():
-    item_data = {"name": "Monitor UltraWide", "quantity": 7}
-    response = client.post("/", json=item_data)
-    assert response.status_code == 200
-    assert response.json() == item_data
+    data = response.json()
+    assert isinstance(data, dict)
 
-def test_get_items_after_create():
-    response = client.get("/")
-    assert response.status_code == 200
-    expected_items = [{"id": 1, "name": "Test Item", "description": "This is a test item"}]
-    assert response.json() == expected_items
+    mock_items = {
+    1: {"name": "Teclado", "quantity" : "2"},
+    2: {"name": "Mouse", "quantity" : "3"},
+    3: {"name": "Monitor", "quantity" : "4"}
+    }
+    assert len(data) == len(mock_items)
+
+    for item_id, item_data in mock_items.items():
+        str_id = str(item_id)
+        assert str_id in data
+        assert data[str_id]["name"] == item_data["name"]
+        assert data[str_id]["quantity"] == item_data["quantity"]
+
+def test_create_item():
+   
+    # Datos de prueba
+    payload = {
+        "name": "Teclat",
+        "quantity": 3,
+    }
+
+    response = client.post("/items/", json=payload)
+    
+    assert response.status_code == 201
+    data = response.json()
+    
+    assert "id" in data
+    assert data["name"] == "Teclat"
+    assert data["quantity"] == 3
