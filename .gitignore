@@ -1,0 +1,6 @@
+app/DB/db_data/
+
+__pycache__/
+*.pyc
+.env
+.vscode/
