@@ -25,9 +25,11 @@ SET default_table_access_method = heap;
 --
 
 CREATE TABLE public.item (
-    name text NOT NULL,
-    quantity integer NOT NULL
+    id       serial     PRIMARY KEY,
+    name     text       NOT NULL,
+    quantity integer    NOT NULL
 );
+
 
 
 ALTER TABLE public.item OWNER TO "user";
