@@ -60,43 +60,38 @@ async def delete_item(itemId: int):
     del mock_items[itemId]
     return
 
- """
 # GET /items/{itemId}
-@router.get("/items/{itemId}")
-async def get_item_by_id(itemId: int, request: Request):
-    query = "SELECT id, name, quantity FROM items WHERE id = $1"
-    item = await request.app.state.db.fetchrow(query, itemId)
-    if item is None:
-        raise HTTPException(status_code=404, detail="Item not found")
-    return dict(item)
+# @router.get("/items/{itemId}")
+# async def get_item_by_id(itemId: int, request: Request):
+#     query = "SELECT id, name, quantity FROM items WHERE id = $1"
+#     item = await request.app.state.db.fetchrow(query, itemId)
+#     if item is None:
+#         raise HTTPException(status_code=404, detail="Item not found")
+#     return dict(item)
 
 # PUT /items/{itemId}
-@router.put("/items/{itemId}")
-async def update_item(itemId: int, updated_item: ItemUpdate, request: Request):
-    # Check if item exists
-    check_query = "SELECT id FROM items WHERE id = $1"
-    exists = await request.app.state.db.fetchval(check_query, itemId)
-    if not exists:
-        raise HTTPException(status_code=404, detail="Item not found")
+# @router.put("/items/{itemId}")
+# async def update_item(itemId: int, updated_item: ItemUpdate, request: Request):
+#     check_query = "SELECT id FROM items WHERE id = $1"
+#     exists = await request.app.state.db.fetchval(check_query, itemId)
+#     if not exists:
+#         raise HTTPException(status_code=404, detail="Item not found")
 
-    update_query = """
-        UPDATE items
-        SET name = $1, quantity = $2
-        WHERE id = $3
-        RETURNING id, name, quantity
-    """
-    item = await request.app.state.db.fetchrow(update_query, updated_item.name, updated_item.quantity, itemId)
-    return dict(item)
+#     update_query = (
+#         "UPDATE items SET name = $1, quantity = $2 WHERE id = $3 RETURNING id, name, quantity"
+#     )
+#     item = await request.app.state.db.fetchrow(update_query, updated_item.name, updated_item.quantity, itemId)
+#     return dict(item)
 
 # DELETE /items/{itemId}
-@router.delete("/items/{itemId}", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_item(itemId: int, request: Request):
-    delete_query = "DELETE FROM items WHERE id = $1"
-    result = await request.app.state.db.execute(delete_query, itemId)
-    if result == "DELETE 0":
-        raise HTTPException(status_code=404, detail="Item not found")
-    return
- """   
+# @router.delete("/items/{itemId}", status_code=status.HTTP_204_NO_CONTENT)
+# async def delete_item(itemId: int, request: Request):
+#     delete_query = "DELETE FROM items WHERE id = $1"
+#     result = await request.app.state.db.execute(delete_query, itemId)
+#     if result == "DELETE 0":
+#         raise HTTPException(status_code=404, detail="Item not found")
+#     return
+
         
     
 
