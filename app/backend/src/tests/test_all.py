@@ -41,39 +41,34 @@ def test_delete_nonexistent_item():
 
 # test maria
 
-def test_dict_items():
-    response = client.get("/items/")
-    assert response.status_code == 200
-
-    data = response.json()
-    assert isinstance(data, dict)
-
-    mock_items = {
-    1: {"name": "Teclado", "quantity" : "2"},
-    2: {"name": "Mouse", "quantity" : "3"},
-    3: {"name": "Monitor", "quantity" : "4"}
-    }
-    assert len(data) == len(mock_items)
-
-    for item_id, item_data in mock_items.items():
-        str_id = str(item_id)
-        assert str_id in data
-        assert data[str_id]["name"] == item_data["name"]
-        assert data[str_id]["quantity"] == item_data["quantity"]
-
 def test_create_item():
-   
-    # Datos de prueba
-    payload = {
-        "name": "Teclat",
-        "quantity": 3,
-    }
+    create_item = {"name": "Monitor HD", "quantity": 7}
+    initial_response = client.get("/items/")
+    initial_items = initial_response.json()
+    initial_count = len(initial_items)
 
-    response = client.post("/items/", json=payload)
+    create_response = client.post("/items/", json=create_item)
+    assert create_response.status_code == 201, f"Expected status code 201, got {create_response.status_code}"
+    created_item = create_response.json()
+
+    assert "id" in created_item, "Created item response does not contain an 'id' field"
+    assert created_item["name"] == create_item["name"], f"Expected name '{create_item['name']}', got '{created_item['name']}'"
+    assert created_item["quantity"] == create_item["quantity"], f"Expected quantity {create_item['quantity']}, got {created_item['quantity']}"
+
+    new_item_id = created_item["id"]
+
+    updated_response = client.get("/items/")
+    updated_items = updated_response.json()
+    assert len(updated_items) == initial_count + 1, f"Expected {initial_count + 1} items, got {len(updated_items)}"
     
-    assert response.status_code == 201
-    data = response.json()
+    item_response = client.get(f"/items/{new_item_id}")
+    assert item_response.status_code == 200, f"Expected status code 200, got {item_response.status_code}"
     
-    assert "id" in data
-    assert data["name"] == "Teclat"
-    assert data["quantity"] == 3
+    retrieved_item = item_response.json()
+    assert retrieved_item["name"] == create_item["name"], f"Retrieved item has name '{retrieved_item['name']}', expected '{create_item['name']}'"
+    assert retrieved_item["quantity"] == create_item["quantity"], f"Retrieved item has quantity {retrieved_item['quantity']}, expected {create_item['quantity']}"
+    
+    assert str(new_item_id) in updated_items or new_item_id in updated_items, f"Item with ID {new_item_id} not found in the complete items list"
+
+
+
