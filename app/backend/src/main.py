@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException, status, Request
 from src.router import api_router
 from pydantic import BaseModel
 import asyncpg
@@ -11,6 +11,8 @@ app = FastAPI()
 
 app.include_router(api_router)
 
+for route in app.routes:
+    print(f"{route.path} -> {route.endpoint}")
 
 
 @app.on_event("startup")

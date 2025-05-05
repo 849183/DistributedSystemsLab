@@ -34,6 +34,18 @@ CREATE TABLE public.item (
 
 ALTER TABLE public.item OWNER TO "user";
 
+INSERT INTO public.item (name, quantity) VALUES ('Laptop', 15);
+INSERT INTO public.item (name, quantity) VALUES ('Keyboard', 45);
+INSERT INTO public.item (name, quantity) VALUES ('Mouse', 60);
+INSERT INTO public.item (name, quantity) VALUES ('Monitor', 20);
+INSERT INTO public.item (name, quantity) VALUES ('Desk Chair', 10);
+INSERT INTO public.item (name, quantity) VALUES ('Notebook', 100);
+INSERT INTO public.item (name, quantity) VALUES ('Pen', 200);
+INSERT INTO public.item (name, quantity) VALUES ('USB Drive', 80);
+INSERT INTO public.item (name, quantity) VALUES ('Webcam', 35);
+INSERT INTO public.item (name, quantity) VALUES ('Headphones', 40);
+
+
 --
 -- Data for Name: item; Type: TABLE DATA; Schema: public; Owner: user
 --
