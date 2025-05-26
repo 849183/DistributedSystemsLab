@@ -12,3 +12,12 @@ Restart the services --> docker compose restart
 delete all the containers, images, and all elements --> docker compose down -v --rmi all --remove-orphans
 State the status of the compose --> docker compose ps
 Save all the data from the db --> docker compose exec db pg_dump -U user shopApp > ./app/DB/db_init.sql
+Delete docker cache --> docker system prune -af
+
+get specific element   -->    curl -X GET URL/items/ELEMENT
+modify a specific element -->  curl -X PUT  URL/items/ELEMENT \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Updated Item", "quantity": 50}'
+
+delete a specific element --> curl -X DELETE URL/items/ELEMENT
+

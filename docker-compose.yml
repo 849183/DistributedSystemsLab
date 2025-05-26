@@ -9,7 +9,7 @@ services:
     depends_on:
       - db
     environment:
-      DATABASE_URL: postgresql://user:password@db:5432/shopApp
+      DATABASE_URL: postgresql://user:Welcome1.@db:5432/shopApp
 
   db:
     image: postgres:16
