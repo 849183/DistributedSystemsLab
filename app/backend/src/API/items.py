@@ -20,21 +20,27 @@ class ItemCreate(BaseModel):
 #     get
 #     post
 
+# @router.get("/")
+#async def get_all_items():
+#    return mock_items
+
 @router.get("/")
-async def get_all_items():
-    return mock_items
+async def get_all_items(request: Request): #endpoint respon a la petició get
+    # fer una consulta a la base de dades per obtenir tots els items
+    query = "SELECT id, name, quantity FROM item"
+    # accedir a la base de dades
+    items = await request.app.state.db.fetch(query)
+    # amb fetch query accedim a la bbdd i retornem resultats
+    # convertir el resultat en un diccionari
+    return [dict(item) for item in items]
 
 @router.post("/", status_code=status.HTTP_201_CREATED)
-async def create_item(item: ItemCreate):
-    if mock_items:
-        new_id = max(mock_items.keys()) + 1
-    else:
-        new_id = 1
+async def create_item(request: Request, item: ItemCreate):
+    # reb objecte item create
+    insert_query = "INSERT INTO item (name, quantity) VALUES ($1, $2) RETURNING id, name, quantity"
+    new_item = await request.app.state.db.fetchrow(insert_query, item.name, item.quantity)
+    return dict(new_item)
 
-    item_dict = item.model_dump()
-    
-    mock_items[new_id] = item_dict
-    return {"id": new_id, **item_dict}
 
 # @router.post("/")
 # async def create_item(item: Item):
@@ -106,8 +112,8 @@ async def delete_item(itemId: int, request: Request):
         raise HTTPException(status_code=404, detail="Item not found")
     return
 
-        
-    
+
+
 
 
 
