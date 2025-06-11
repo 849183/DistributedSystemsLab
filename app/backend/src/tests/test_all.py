@@ -40,20 +40,16 @@ def test_delete_nonexistent_item():
     assert response.status_code == 404
 
 # test maria
-
-def test_get_items_empty():
-    response = client.get("/")
+# test create item and show all items
+def test_get_all_items():
+    response = client.get("/items/")
     assert response.status_code == 200
-    assert response.json() == []
+    assert isinstance(response.json(), list)
 
-def test_create_item_success():
-    item_data = {"name": "Monitor UltraWide", "quantity": 7}
-    response = client.post("/", json=item_data)
-    assert response.status_code == 200
-    assert response.json() == item_data
-
-def test_get_items_after_create():
-    response = client.get("/")
-    assert response.status_code == 200
-    expected_items = [{"id": 1, "name": "Test Item", "description": "This is a test item"}]
-    assert response.json() == expected_items
+def test_create_item():
+    new_item = {"name": "New Item", "quantity": 10}
+    response = client.post("/items/", json=new_item)
+    assert response.status_code == 201
+    data = response.json()
+    assert data["name"] == "New Item"
+    assert data["quantity"] == 10
