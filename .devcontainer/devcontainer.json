@@ -1,0 +1,22 @@
+{
+    "name": "Kubernetes Codespace",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "features": {
+        "kubectl": "latest",
+        "docker-in-docker": "latest"
+    },
+    "postCreateCommand": "minikube start",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-kubernetes-tools.vscode-kubernetes-tools",
+                "redhat.vscode-yaml"
+            ]
+        }
+    },
+    "mounts": [
+        "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+    ]
+}
