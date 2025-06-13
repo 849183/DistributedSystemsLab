@@ -1,0 +1,26 @@
+
+minikube start
+eval $(minikube -p minikube docker-env)
+cd app/backend
+docker build -t ds/shopapp-backend:latest -f dockerfile .
+eval $(minikube -p minikube docker-env -u)
+
+cd ..
+cd ..
+cd kb
+kubectl apply -f deploy.yaml
+# 3. Verificar estado de Pods y Services
+kubectl get pods,svc -n shopapp
+
+minikube tunnel //En una terminal
+kubectl get pods,svc -n shopapp //buscar external-IP y hacerle curl a esta (en ora terminal)
+
+
+
+kubectl scale deployment backend --replicas=0 -n shopapp //se puede cambiar las réplicas, pero no pasar de 3 en backend y de 1 en postgres
+kubectl scale statefulset postgres --replicas=0 -n shopapp
+
+minikube stop
+
+
+
