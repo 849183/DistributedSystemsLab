@@ -115,6 +115,7 @@ spec:
 
 Keep development, staging, and production as similar as possible.
 The dockerfile is both used in development (docker-compose) as in production (Kubernetes).
+
 ---
 
 ### 10.Logs
@@ -125,6 +126,12 @@ There are no .logs files, the messages are redirected to STDOUT and collected by
 Any administrative task (data base migrations…) must be executed as a unique and isolated process but always:
 •	Use the same codebase and config as the regular app processes.
 At app/DB/db_init.sql and basic_commands.txt scripts information about administration processes can be found.
+
+---
+
+### 12. Processes
+Execute the app as one or more stateless processes. Any data that needs to persist must be stored in a backing service.
+At the tests/ it can be appreciated that the app runs as a light web process (uvicorn) and in a separate way the tests in another autonomous process (pytest tests/).
 
 
 
