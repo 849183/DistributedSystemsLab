@@ -1,5 +1,81 @@
 # DistributedSystemsLab
-## 12 FACTOR APP APPLICATION
+
+## Build Minikube Image > delpoy in kubernetes > expose the service > work with the cluster
+### 1. Initialyze Minikube
+```yaml
+minikube start
+```
+Starts a local kubernetes.
+
+---
+
+### 2. Point Docker to minikube's daemon
+```yaml
+eval $(minikube -p minikube docker-env)
+```
+Redirects the docker commands to the internal environment of Minikube, so the images are built there.
+
+---
+
+### 3. Build the backend image
+```yaml
+cd app/backend
+docker build -t ds/shopapp-backend:latest -f dockerfile .
+```
+Creates the image `ds/shopapp-backend:latest` using the Dockerfile from the directory `app/backend`.
+
+---
+
+### 4. Restore Docker to the local environment
+```yaml
+eval $(minikube -p minikube docker-env -u)
+```
+Returns to the local docker.
+
+---
+
+### 5. Deploy in Kubernetes
+```yaml
+cd ../../kb
+kubectl apply -f deploy.yaml
+```
+Applies the manifests defined in `deploy.yaml` inside `shopapp`.
+
+---
+
+### 6. Verify pods and services
+```yaml
+kubectl get pods,svc -n shopapp
+```
+
+---
+
+### 7. Expose LoadBalancer locally
+In a terminal:
+`minikube tunnel`
+
+In another terminal:
+`kubectl get pods,svc -n shopapp`
+Tests the service.
+
+ ---
+
+ ### 8. Scale replicas
+```yaml
+kubectl scale deployment backend --replicas=0 -n shopapp
+kubectl scale statefulset postgres --replicas=0 -n shopapp
+```
+Adjusts the number of replicas.
+
+### 9. Minikube
+```yaml
+minikube stop
+```
+Shuts the local cluster to free resources.
+
+---
+---
+## 12 FACTOR APP
 
 Twelve-factor apps are a set of good practices designed to create cloud-native web applications.
 
