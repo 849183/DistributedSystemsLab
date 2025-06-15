@@ -76,6 +76,8 @@ Scale out via the process model.
 Kubernetes manifests are an exaplme of how this factor is used.
 .yaml manifests (deployment manifests)
 
+---
+
 ### 8. Disposability
 Maximize robustness with fast startup and graceful shutdown.
 •	Processes should start up quickly and handle SIGTERM properly.
